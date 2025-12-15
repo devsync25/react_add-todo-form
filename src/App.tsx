@@ -7,9 +7,9 @@ import { TodoList } from './components/TodoList/TodoList';
 import { Todo } from './types';
 
 const preparedTodos: Todo[] = todosFromServer.map(todo => {
-  const user = usersFromServer.find(u => u.id === todo.userId)!;
+  const foundUser = usersFromServer.find(user => user.id === todo.userId)!;
 
-  return { ...todo, user };
+  return { ...todo, userId: foundUser.id, user: foundUser };
 });
 
 export const App = () => {
