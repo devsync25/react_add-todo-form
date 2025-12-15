@@ -4,16 +4,12 @@ import './App.scss';
 import usersFromServer from './api/users';
 import todosFromServer from './api/todos';
 import { TodoList } from './components/TodoList/TodoList';
+import { Todo } from './types';
 
-const preparedTodos = todosFromServer.map(todo => {
-  const user = usersFromServer.find(
-    currentUser => currentUser.id === todo.userId,
-  );
+const preparedTodos: Todo[] = todosFromServer.map(todo => {
+  const user = usersFromServer.find(u => u.id === todo.userId)!;
 
-  return {
-    ...todo,
-    user: user!,
-  };
+  return { ...todo, user };
 });
 
 export const App = () => {
@@ -49,7 +45,8 @@ export const App = () => {
       return;
     }
 
-    const maxId = Math.max(...todos.map(todo => todo.id));
+    const maxId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) : 0;
 
     const newTodo = {
       id: maxId + 1,
